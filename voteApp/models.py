@@ -7,6 +7,7 @@ class Question(models.Model):
     question_text = models.CharField(max_length=300)
     # Define a DateTimeField to store the date the question was published
     question_date = models.DateTimeField('date published')
+    question_desc = models.CharField(max_length=500)
 
     # Define the string representation of the model instance
     def __str__(self):
