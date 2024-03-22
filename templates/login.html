@@ -13,7 +13,8 @@
         <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
         <div id="toptxt">Assemblée générale du CINUP - Connexion</div>
     </div>
-    <form action="{% url 'login' %}" method="post">
+    <form action="{% url 'voteApp:login' %}" method="post">
+        {% csrf_token %}
         <label for="username">Nom d'utilisateur</label>
         <input type="text" id="username" name="username">
         <label for="password">Mot de passe</label>

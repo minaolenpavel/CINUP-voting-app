@@ -12,7 +12,7 @@ def index(request):
 
     
 def login(request):
-    if request.methof == 'POST':
+    if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)

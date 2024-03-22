@@ -1,10 +1,11 @@
 from django.urls import path, include
 from . import views
 
-app_name = "Vote app"
+app_name = "voteApp"
 urlpatterns = [
-    path("", views.index, 
+    path('', views.login, 
+         name='login'),
+    path('index/', views.index, 
          name="index"),
-    path("login/", views.login, 
-         name="login"),
+    
 ]
