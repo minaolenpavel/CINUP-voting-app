@@ -18,7 +18,7 @@ def login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             auth_login(request, user)
-            return HttpResponseRedirect(reverse('index'))
+            return HttpResponseRedirect(reverse('voteApp:index'))
         else :
             return render(request, "login.html", {'error': "Nom d'utilisateur ou mot de passe erronés"})
     else: 

@@ -7,5 +7,4 @@ urlpatterns = [
          name='login'),
     path('index/', views.index, 
          name="index"),
-    
 ]
