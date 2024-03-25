@@ -90,10 +90,13 @@ form {
     margin-bottom: 20px;
     border-radius: 5px;
     padding-bottom: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .oneQuestion:hover{
-    background-color: rgb(119, 117, 117);
+    background-color:#6790de;
+    color: white;
+    size-adjust: 10%;
 }
 .question-list{
     margin-top: 100px;
