@@ -7,7 +7,11 @@ from django.contrib.auth import authenticate, login as auth_login
 # Create your views here.
 
 def index(request):
-    return render(request, "index.html")
+    questionsList = Question.objects.order_by('-question_date')[:5] 
+    print(questionsList)
+    #this last part is about the number of questions to be displayed by pub_date, here it will display the last 5 questions
+    context = {"questionsList" : questionsList }
+    return render(request, "index.html", context)
 
 
     

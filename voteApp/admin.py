@@ -6,9 +6,9 @@ from .models import Question, Choice
 # Customize the header of the admin site
 admin.site.site_header = "Assemblée générale"
 # Customize the title of the admin site
-admin.site.site_title = "Admin area"
+admin.site.site_title = "Zone administrateur"
 # Customize the index title of the admin site
-admin.site.index_title = "Welcome to voting admin area"
+admin.site.index_title = "Bienvenue sur la zone admnistrateur"
 
 # Define an inline admin class for the Choice model
 # This allows you to edit Choice instances directly from the Question admin page
@@ -23,7 +23,7 @@ class QuestionAdmin(admin.ModelAdmin):
     # Fieldsets are sections of the form, divided by fieldsets, which can be collapsed
     fieldsets = [
         (None, {'fields':['question_text']}),  # A fieldset with no title, containing the 'question_text' field
-        ('Date Information', {'fields': ['pub_date'], 'classes': ['collapse']}),  # A fieldset titled 'Date Information', containing the 'pub_date' field, which is collapsible
+        ('Date Information', {'fields': ['question_date'], 'classes': ['collapse']}),  # A fieldset titled 'Date Information', containing the 'pub_date' field, which is collapsible
     ]
     # Include the ChoiceInLine admin class in the admin interface for the Question model
     inlines = [ChoiceInLine]
