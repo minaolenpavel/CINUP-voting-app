@@ -14,10 +14,12 @@
     </div>
     <div class="question-list">
         {% for question in questionsList %}
-            <div class="oneQuestion">
-                <h3>{{ question.question_text }}</h3>
-                <p>{{ question.question_desc }}</p>
-            </div>
+            <a href="{% url 'voteApp:details' question.question_id %}">
+                <div class="oneQuestion">
+                    <h3>{{ question.question_text }}</h3>
+                    <p>{{ question.question_desc }}</p>
+                </div>
+            </a>
         {% endfor %} 
     </div>
 </body>

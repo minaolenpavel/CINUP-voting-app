@@ -27,3 +27,9 @@ def login(request):
             return render(request, "login.html", {'error': "Nom d'utilisateur ou mot de passe erronés"})
     else: 
         return render(request, "login.html")
+
+def details(request, question_id):
+    print(f"Received question_id: {question_id}")
+    question = get_object_or_404(Question, question_id=question_id)
+    print(f"Retrieved question: {question}")
+    return render(request, 'details.html', {'question' : question})

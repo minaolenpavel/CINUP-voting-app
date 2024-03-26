@@ -1,14 +1,16 @@
 # Import the models module from Django's db package
 from django.db import models
+from django.contrib.auth.models import User
+import uuid
 
 # Define a model class for Question
 class Question(models.Model):
     # Define a CharField with a maximum length of  300 characters
     question_text = models.CharField(max_length=300)
     # Define a DateTimeField to store the date the question was published
-    question_date = models.DateTimeField('date published')
+    question_date = models.DateTimeField('date de publication')
     question_desc = models.TextField(blank=True)
-
+    question_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     # Define the string representation of the model instance
     def __str__(self):
         # Return the text of the question as the string representation
