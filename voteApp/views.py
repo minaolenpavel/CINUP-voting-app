@@ -29,7 +29,5 @@ def login(request):
         return render(request, "login.html")
 
 def details(request, question_id):
-    print(f"Received question_id: {question_id}")
-    question = get_object_or_404(Question, question_id=question_id)
-    print(f"Retrieved question: {question}")
+    question = get_object_or_404(Question.objects.prefetch_related('choice_set'), question_id=question_id)
     return render(request, 'details.html', {'question' : question})

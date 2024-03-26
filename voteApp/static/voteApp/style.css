@@ -112,4 +112,15 @@ form {
     justify-content: center;
     align-items: center;
 }
+/* Question details */
 
+.question-details{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: black;
+    background-color: white;
+
+    width: 200px;
+    height: 100px;
+}
