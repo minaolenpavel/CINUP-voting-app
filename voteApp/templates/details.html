@@ -9,19 +9,21 @@
 <body>
     <div class="bg"></div>
     <div id="topbar">
-        <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
+        <a href="{% url 'voteApp:index' %}">
+            <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
+        </a>
         <div id="toptxt">Assemblée générale du CINUP</div>
     </div>
     <div class="question-details">
-        <h2>{{ question.question_text }}</h1>
+        <h2>{{ question.question_text }}</h2>
         <p>{{ question.question_desc }}</p>
-        <ul>
+        <div class="choiceBox">
             {% for choice in question.choice_set.all %}
-                <li>{{ choice.choice_text }}</li>
-            {% empty %}
-                <li>No choices available.</li>
+                <div class="oneChoice">
+                    <h3>{{ choice.choice_text }}</h3>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     </div>
 </body>
 </html>

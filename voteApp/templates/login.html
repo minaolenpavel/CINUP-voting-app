@@ -10,8 +10,10 @@
     <div class="bg">
     </div>
     <div id="topbar">
-        <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
-        <div id="toptxt">Assemblée générale du CINUP - Connexion</div>
+        <a href="{% url 'voteApp:index' %}">
+            <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
+        </a>
+        <div id="toptxt">Assemblée générale du CINUP</div>
     </div>
     <form action="{% url 'voteApp:login' %}" method="post">
         {% csrf_token %}

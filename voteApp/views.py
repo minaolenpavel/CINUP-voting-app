@@ -4,8 +4,10 @@ from django.template import loader
 from django.urls import reverse
 from .models import Question, Choice
 from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 def index(request):
     questionsList = Question.objects.order_by('-question_date')[:5] 
     print(questionsList)
@@ -28,6 +30,7 @@ def login(request):
     else: 
         return render(request, "login.html")
 
+@login_required
 def details(request, question_id):
     question = get_object_or_404(Question.objects.prefetch_related('choice_set'), question_id=question_id)
     return render(request, 'details.html', {'question' : question})
