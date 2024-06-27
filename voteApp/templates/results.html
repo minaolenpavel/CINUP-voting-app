@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="{% static 'voteApp/img/favicon.ico' %}">
+    <title>Results</title>
+</head>
+<body>
+    <div id="topbar">
+        <a href="{% url 'voteApp:index' %}">
+            <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
+        </a>
+        <div id="toptxt">Assemblée générale du CINUP</div>
+        <a href="{% url 'admin:index' %}" id="admin">Admin</a>
+    </div>
+    <h1>Voting Results</h1>
+    {% for question in questions %}
+        <div class="question-result">
+            <h2>{{ question.question_text }}</h2>
+            <p>{{ question.question_desc }}</p>
+            <div class="choices">
+                {% for choice in question.choice_set.all %}
+                    <div class="choice">
+                        <p>{{ choice.choice_text }}: {{ choice.votes }} votes</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</body>
+</html>

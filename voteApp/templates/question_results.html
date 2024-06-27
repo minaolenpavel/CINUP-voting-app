@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ question.question_text }} - résultats</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'voteApp/img/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'voteApp/style.css' %}">
+</head>
+<body>
+    <div class="bg"></div>
+    <div id="topbar">
+        <a href="{% url 'voteApp:index' %}">
+            <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
+        </a>
+        <div id="toptxt">Assemblée générale du CINUP</div>
+        <a href="{% url 'admin:index' %}" id="admin">Admin</a>
+    </div>
+    <div class="resultsBox">
+        <h2 class="voteTitle">{{ question.question_text }}</h2>
+        <p class="resultsDesc">{{ question.question_desc }}</p>
+        <div class="choices">
+            {% for choice in choices %}
+                <div class="choiceResults">
+                    <p class="resultsChoice">{{ choice.choice_text }}: {{ choice.votes }} votes</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="voteUsers">
+            {% for user, has_voted in user_votes.items %}
+                {% if not has_voted %}
+                    <p class="userVoteTxt">{{ user.display_name }} <span class="negVote">n'a pas voté</span></p>
+                {% elif has_voted %}
+                    <p class="userVoteTxt">{{ user.display_name }} <span class="posVote">a voté</span></p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>    
+</body>
+</html>
