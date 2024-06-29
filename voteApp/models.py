@@ -40,14 +40,3 @@ class CustomUser(AbstractUser):
     display_name = models.CharField(max_length=255, default='')
 
 
-
-class ProxyVote(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='generated_proxy_votes')
-    proxy_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='proxy_votes')
-    expiration_date = models.DateField()
-
-    def is_active(self):
-        return self.expiration_date >= datetime.timezone.now().date()
-
-    def __str__(self):
-        return f"{self.user.username} -> {self.proxy_user.username}"

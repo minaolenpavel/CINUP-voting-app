@@ -6,8 +6,6 @@ from django.contrib.auth.models import User
 from .models import Choice, Question, ProxyVote
 from django.contrib.auth.models import Group
 from django.urls import reverse
-from .forms import ProxyVoteForm
-import datetime
 # Create your views here.
 
 
