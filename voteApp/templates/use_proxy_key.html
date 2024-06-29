@@ -1,0 +1,10 @@
+
+{% block content %}
+<h2>Use a Proxy Key</h2>
+<p>Enter the proxy key below to vote on someone else's behalf.</p>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="proxy_key" placeholder="Enter Proxy Key">
+    <button type="submit">Vote</button>
+</form>
+{% endblock %}

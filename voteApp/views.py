@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Choice, Question
+from .models import Choice, Question, ProxyVote
 from django.contrib.auth.models import Group
 from django.urls import reverse
 from django.conf import settings
@@ -17,8 +17,6 @@ def index(request):
     context = {"questionsList" : questionsList }
     return render(request, "index.html", context)
 
-
-    
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -96,4 +94,44 @@ def question_results(request, question_id):
         # Prepare a dictionary to store whether each user has voted for any choice in this question
     user_votes = {user: user in users_who_voted for user in all_users}
     return render(request, 'question_results.html', {'question': question, 'choices': choices, 'user_votes': user_votes})
+
+
+@login_required
+def generate_proxy_keys(request):
+    if request.method == 'POST':
+        # Check if a ProxyVote already exists for the current user
+        proxy_vote, created = ProxyVote.objects.get_or_create(user=request.user)
+        
+        # If the record was just created, generate a new key
+        if created:
+            proxy_vote.key = ProxyVote.generate_key()
+            proxy_vote.save()
+
+        # Redirect to success page with the key as a query parameter
+        return redirect(f"{reverse('voteApp:gen_success')}?generated_key={proxy_vote.key}")
+    else:
+        return render(request, 'generate_proxy_keys.html')
+
+@login_required
+def gen_success(request):
+    generated_key = request.GET.get('generated_key', '')
+    return render(request, 'gen_proxy_success.html', {'generated_key': generated_key})
+
+@login_required
+def use_proxy_key(request):
+    if request.method == 'POST':
+        key = request.POST.get('proxy_key')
+        try:
+            proxy_vote = ProxyVote.objects.get(key=key, used=False)
+            if not proxy_vote.used:
+                proxy_vote.used = True
+                proxy_vote.save()
+                # Logic to mark the original user as having voted goes here
+                return redirect('your_success_page_url')
+            else:
+                return redirect('key_already_used')
+        except ProxyVote.DoesNotExist:
+            return redirect('key_not_found')
+    else:
+        return render(request, 'use_proxy_key.html')
 

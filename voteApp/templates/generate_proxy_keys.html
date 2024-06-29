@@ -1,0 +1,9 @@
+
+{% block content %}
+<h2>Generate Proxy Keys</h2>
+<p>You can generate a key below. Others can use this key to vote on your behalf.</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Generate My Proxy Key</button>
+</form>
+{% endblock %}

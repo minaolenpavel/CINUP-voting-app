@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 import uuid
 from django.conf import settings
+import random
+import string
 
 # Define a model class for Question
 class Question(models.Model):
@@ -35,3 +37,17 @@ class Choice(models.Model):
 
 class CustomUser(AbstractUser):
     display_name = models.CharField(max_length=255, default='')
+
+class ProxyVote(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    key = models.CharField(max_length=255, unique=True, editable=False)
+    used = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.key = self.generate_key()
+        super().save(*args, **kwargs)
+
+    @staticmethod
+    def generate_key():
+        return ''.join(random.choices(string.ascii_letters + string.digits, k=10))
