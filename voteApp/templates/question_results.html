@@ -10,10 +10,25 @@
 <body>
     <div class="bg"></div>
     <div id="topbar">
+        {% if user.is_authenticated %}
+        <div id="username" class="username">{{ user.display_name }}</div>
+        <div id="userMenu" class="menu" style="display: none;">
+            <ul>
+                <li class="menu_element">
+                    <a href="{% url 'voteApp:generate_proxy_keys' %}">Faire une procuration</a>
+                </li>
+                <li class="menu_element">
+                    <a href="{% url 'voteApp:use_proxy_key' %}">Utiliser une procuration</a>
+                </li>
+                <li class="menu_element">
+                    <a href="{% url 'voteApp:logout' %}">Se déconnecter</a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
         <a href="{% url 'voteApp:index' %}">
             <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
         </a>
-        <div id="toptxt">Assemblée générale du CINUP</div>
         <a href="{% url 'admin:index' %}" id="admin">Admin</a>
     </div>
     <div class="resultsBox">
