@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Choice, Question, ProxyVote
+from .models import Choice, Question
 from django.contrib.auth.models import Group
 from django.urls import reverse
 # Create your views here.
