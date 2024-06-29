@@ -25,5 +25,6 @@ urlpatterns = [
         name="gen_success"),
     path('', LogoutView.as_view(next_page='voteApp:login/'), 
         name='logout'),
-    
+    path('view-generated-proxy-keys/', views.view_generated_proxy_keys, 
+        name='view_generated_proxy_keys'),
 ]

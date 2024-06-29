@@ -38,11 +38,13 @@ class Choice(models.Model):
 class CustomUser(AbstractUser):
     display_name = models.CharField(max_length=255, default='')
 
+
 class ProxyVote(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='proxy_votes')
     key = models.CharField(max_length=255, unique=True, editable=False)
     used = models.BooleanField(default=False)
-
+    generated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='generated_keys')
+    generated_at = models.DateTimeField(auto_now_add=True)  # Add this field
     def save(self, *args, **kwargs):
         if not self.pk:
             self.key = self.generate_key()
@@ -51,3 +53,6 @@ class ProxyVote(models.Model):
     @staticmethod
     def generate_key():
         return ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+
+    def __str__(self):
+        return self.key

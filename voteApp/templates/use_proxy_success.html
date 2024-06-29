@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="{% static 'voteApp/style.css' %}">
         <link rel="icon" type="image/x-icon" href="{% static 'voteApp/img/favicon.ico' %}">
         <script src="{% static 'voteApp/display_menu.js' %}"></script>
-        <title>Liste des votes</title>
+        <title>Succès !</title>
     </head>
     <body>
         <div class="bg"></div>
@@ -32,22 +32,6 @@
             </a>
             <a href="{% url 'admin:index' %}" id="admin">Admin</a>
         </div>
-    {% block content %}
-    <h2>Use a Proxy Key</h2>
-    <p>Enter the proxy key below to vote on someone else's behalf.</p>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="proxy_key" placeholder="Enter Proxy Key">
-        <button type="submit">Vote</button>
-    </form>
-    {% endblock %}
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class="info">{% if message.tags %}{{ message }}{% endif %}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    <script src="{% static 'voteApp/messageTransition.js' %}"></script>
+        <h1>Votre procuration a bien été prise en compte<h1>
 </body>
 </html>
