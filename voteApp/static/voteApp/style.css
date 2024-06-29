@@ -25,6 +25,11 @@ a{
     left: 50%;
     top: 0%;
 }
+
+.arrow {
+    font-size: 12px; /* Adjust size as needed */
+    margin-left: 5px; /* Add some space between username and arrow */
+}
 #topbar{
     z-index: 100;
     width: 100vw;

@@ -12,7 +12,7 @@
         <div class="bg"></div>
         <div id="topbar">
             {% if user.is_authenticated %}
-            <div id="username" class="username">{{ user.display_name }}</div>
+            <div id="username" class="username">{{ user.display_name }}<span class="arrow">▼</span></div>
             <div id="userMenu" class="menu" style="display: none;">
                 <ul>
                     <li class="menu_element">
