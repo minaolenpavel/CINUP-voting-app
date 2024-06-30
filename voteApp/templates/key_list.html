@@ -7,26 +7,26 @@
     <title>Your Generated Keys</title>
 </head>
 <body>
-    <h1>Your Generated Keys</h1>
+    {% block content %}
+    <h2>Your Generated Keys</h2>
     <table>
-        <thead>
-            <tr>
-                <th>Access Key</th>
-                <th>Generation Date</th>
-                <th>Activation Date</th>
-                <th>Expiration Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for key in keys %}
-                <tr>
-                    <td>{{ key.access_key }}</td>
-                    <td>{{ key.key_generation_date }}</td>
-                    <td>{{ key.activation_date }}</td>
-                    <td>{{ key.key_expiration_date }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
+    <tr>
+        <th>Access Key</th>
+        <th>Generation Date</th>
+        <th>Activation Date</th>
+        <th>Expiration Date</th>
+        <th>Status</th>
+    </tr>
+    {% for key in keys %}
+        <tr>
+        <td>{{ key.access_key }}</td>
+        <td>{{ key.key_generation_date }}</td>
+        <td>{{ key.activation_date }}</td>
+        <td>{{ key.key_expiration_date }}</td>
+        <td>{% if key.is_valid %} Valid {% else %} Invalid {% endif %}</td>
+        </tr>
+    {% endfor %}
     </table>
+    {% endblock %}
 </body>
 </html>

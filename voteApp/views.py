@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.http import HttpResponseForbidden
 from.forms import AccessKeyForm
-from .models import Choice, Question, CustomUser
+from .models import Choice, Question, CustomUser, UserKey
 from .forms import *
 import secrets
 import string
@@ -88,9 +88,17 @@ def generate_key(request):
             access_key = ''.join(secrets.choice(alphabet) for i in range(12))  # Generates a 12-character long string
             activation_date = form.cleaned_data['activation_date']
             user = request.user
-            user.access_key = access_key
-            user.activation_date = activation_date
-            user.save()
+
+            # Invalidate previous keys
+            UserKey.objects.filter(user=user).update(key_expiration_date=timezone.now())
+
+            # Create new key
+            new_key = UserKey.objects.create(
+                user=user,
+                access_key=access_key,
+                activation_date=activation_date,
+                key_generation_date=timezone.now()
+            )
             return render(request, 'key_generated.html', {'access_key': access_key})
     else:
         form = GenerateKeyForm()
@@ -119,6 +127,5 @@ def access_with_key(request):
     
 @login_required
 def key_list(request):
-    user = request.user
-    keys = CustomUser.objects.filter(id=user.id).values('access_key', 'key_generation_date', 'activation_date', 'key_expiration_date')
+    keys = UserKey.objects.filter(user=request.user).order_by('-key_generation_date')
     return render(request, 'key_list.html', {'keys': keys})

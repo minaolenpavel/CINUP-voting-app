@@ -3,9 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 import uuid
 from django.conf import settings
-import random
-import string
 import datetime
+from django.utils import timezone
 
 # Define a model class for Question
 class Question(models.Model):
@@ -38,12 +37,22 @@ class Choice(models.Model):
 
 class CustomUser(AbstractUser):
     display_name = models.CharField(max_length=255, default='')
+
+class UserKey(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     access_key = models.CharField(max_length=20, blank=True, editable=False)
+    key_generation_date = models.DateTimeField(default=timezone.now)
     activation_date = models.DateTimeField(null=True, blank=True)
-    key_generation_date = models.DateTimeField(auto_now_add=True)
     key_expiration_date = models.DateTimeField(null=True, blank=True)
+    
+    @property
+    def is_valid(self):
+        return self.key_expiration_date is None or self.key_expiration_date > timezone.now()
 
     def save(self, *args, **kwargs):
         if self.activation_date:
             self.key_expiration_date = self.activation_date + datetime.timedelta(hours=24)
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.access_key} ({'Valid' if self.is_valid else 'Invalid'})"
