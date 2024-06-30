@@ -39,15 +39,4 @@ class Choice(models.Model):
 class CustomUser(AbstractUser):
     display_name = models.CharField(max_length=255, default='')
     access_key = models.CharField(max_length=20, blank=True, editable=False)
-
-
-class ProxyVote(models.Model):
-    key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    generated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='generated_proxy_votes')
-    used_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='used_proxy_votes')
-    generated_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField()
-    used_at = models.DateTimeField(null=True, blank=True)
-
-    def __str__(self):
-        return f"Proxy Vote {self.key}"
+    activation_date = models.DateTimeField(null=True, blank=True)

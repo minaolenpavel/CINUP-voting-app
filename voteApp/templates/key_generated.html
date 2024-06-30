@@ -1,22 +1,11 @@
-<!-- templates/key_generated.html -->
+<!-- key_generated.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Key Generated</title>
-    <script>
-        function copyKey() {
-            navigator.clipboard.writeText(document.getElementById('access-key').innerText);
-            alert('Key copied to clipboard!');
-        }
-    </script>
 </head>
 <body>
-    <div style="text-align:center;">
-        <h1>Your Access Key</h1>
-        <p id="access-key">{{ access_key }}</p>
-        <button onclick="copyKey()">Copy Key</button>
-        <p>Please share this key securely.</p>
-    </div>
+    <h1>Access Key Generated</h1>
+    <p>Your access key: {{ access_key }}</p>
 </body>
 </html>

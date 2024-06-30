@@ -6,8 +6,11 @@ from django.urls import reverse
 from django.http import HttpResponseForbidden
 from.forms import AccessKeyForm
 from .models import Choice, Question, CustomUser
+from .forms import *
 import secrets
 import string
+from django.utils import timezone
+from datetime import timedelta
 
 @login_required
 def index(request):
@@ -78,15 +81,26 @@ def question_results(request, question_id):
 
 @login_required
 def generate_key(request):
-    # Generate a secure random string of ASCII letters
-    alphabet = string.ascii_letters
-    access_key = ''.join(secrets.choice(alphabet) for i in range(12))  # Generates a 12-character long string
+    if request.method == 'POST':
+        form = GenerateKeyForm(request.POST)
+        if form.is_valid():
+            # Generate a secure random string of ASCII letters
+            alphabet = string.ascii_letters
+            access_key = ''.join(secrets.choice(alphabet) for i in range(12))  # Generates a 12-character long string
+            
+            # Get the activation date from the form
+            activation_date = form.cleaned_data['activation_date']
+            
+            # Assign the generated key and activation date to the user and save
+            request.user.access_key = access_key
+            request.user.activation_date = activation_date
+            request.user.save()
+            
+            return render(request, 'key_generated.html', {'access_key': access_key})
+    else:
+        form = GenerateKeyForm()
     
-    # Assign the generated key to the user and save
-    request.user.access_key = access_key
-    request.user.save()
-    
-    return render(request, 'key_generated.html', {'access_key': access_key})
+    return render(request, 'generate_key.html', {'form': form})
 
 def access_with_key(request):
     if request.method == 'POST':
@@ -95,10 +109,14 @@ def access_with_key(request):
             access_key = form.cleaned_data['access_key']
             try:
                 user = CustomUser.objects.get(access_key=access_key)
-                # Log the user in
-                user.backend = 'django.contrib.auth.backends.ModelBackend'  # Specify the backend
-                auth_login(request, user)
-                return redirect('voteApp:index')  # Redirect to a target view after successful login
+                # Check if the key is activated and not expired
+                if user.activation_date and timezone.now() >= user.activation_date and timezone.now() < user.activation_date + timedelta(hours=24):
+                    # Log the user in
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'  # Specify the backend
+                    auth_login(request, user)
+                    return redirect('voteApp:index')  # Redirect to a target view after successful login
+                else:
+                    return HttpResponseForbidden('<h1>Invalid or expired key</h1>')
             except CustomUser.DoesNotExist:
                 return HttpResponseForbidden('<h1>Invalid key</h1>')
     else:

@@ -1,0 +1,15 @@
+<!-- generate_key.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Key</title>
+</head>
+<body>
+    <h1>Generate Access Key</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Generate Key</button>
+    </form>
+</body>
+</html>

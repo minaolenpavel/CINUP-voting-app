@@ -24,5 +24,4 @@ urlpatterns = [
         name='generate-key'),
     path('access-with-key/', views.access_with_key, 
         name='access-with-key'),
-
 ]
