@@ -110,16 +110,17 @@ def access_with_key(request):
         if form.is_valid():
             access_key = form.cleaned_data['access_key']
             try:
-                user = CustomUser.objects.get(access_key=access_key)
+                user_key = UserKey.objects.get(access_key=access_key)
+                user = user_key.user
                 # Check if the key is activated and not expired
-                if user.activation_date and timezone.now() >= user.activation_date and timezone.now() < user.activation_date + timedelta(hours=24):
+                if user_key.activation_date and timezone.now() >= user_key.activation_date and timezone.now() < user_key.activation_date + timedelta(hours=24):
                     # Log the user in
                     user.backend = 'django.contrib.auth.backends.ModelBackend'  # Specify the backend
                     auth_login(request, user)
                     return redirect('voteApp:index')  # Redirect to a target view after successful login
                 else:
                     return HttpResponseForbidden('<h1>Invalid or expired key</h1>')
-            except CustomUser.DoesNotExist:
+            except UserKey.DoesNotExist:
                 return HttpResponseForbidden('<h1>Invalid key</h1>')
     else:
         form = AccessKeyForm()
