@@ -99,7 +99,7 @@ def generate_key(request):
                 activation_date=activation_date,
                 key_generation_date=timezone.now()
             )
-            return render(request, 'key_generated.html', {'access_key': access_key})
+            return render(request, 'key_generated.html', {'access_key': access_key, 'expiration_date' : new_key.key_expiration_date})
     else:
         form = GenerateKeyForm()
     return render(request, 'generate_key.html', {'form': form})
