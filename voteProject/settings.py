@@ -103,7 +103,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'voteApp.authentication.ProxyVoteAuthBackend',
 ]
 
 LOGIN_URL = 'voteApp:login'

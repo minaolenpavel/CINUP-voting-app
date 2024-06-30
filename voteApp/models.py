@@ -38,6 +38,8 @@ class Choice(models.Model):
 
 class CustomUser(AbstractUser):
     display_name = models.CharField(max_length=255, default='')
+    access_key = models.CharField(max_length=20, blank=True, editable=False)
+
 
 class ProxyVote(models.Model):
     key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)

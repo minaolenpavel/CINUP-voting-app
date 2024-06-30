@@ -2,16 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group
 from django.urls import reverse
-from .models import Choice, Question, ProxyVote  # Ensure ProxyVote is imported correctly
-from .forms import GenerateProxyVoteForm  # Ensure forms are imported correctly
-from django.views.generic import FormView
-from django.views import View
-from django.http import HttpResponse
-import datetime
-# Create your views here.
-
+from django.http import HttpResponseForbidden
+from.forms import AccessKeyForm
+from .models import Choice, Question, CustomUser
+import secrets
+import string
 
 @login_required
 def index(request):
@@ -80,28 +76,32 @@ def question_results(request, question_id):
     user_votes = {user: user in users_who_voted for user in all_users}
     return render(request, 'question_results.html', {'question': question, 'choices': choices, 'user_votes': user_votes})
 
-class GenerateProxyVoteView(FormView):
-    template_name = 'generate_proxy_vote.html'
-    form_class = GenerateProxyVoteForm
-    success_url = '/success_url/'
-
-    def form_valid(self, form):
-        proxy_vote = ProxyVote.objects.create(generated_by=self.request.user, expires_at=form.cleaned_data['expires_at'])
-        # You might want to send the key to the user or display it on the page
-        return super().form_valid(form)
+@login_required
+def generate_key(request):
+    # Generate a secure random string of ASCII letters
+    alphabet = string.ascii_letters
+    access_key = ''.join(secrets.choice(alphabet) for i in range(12))  # Generates a 12-character long string
     
-class UseProxyVoteView(View):
-    def post(self, request, *args, **kwargs):
-        key = request.POST.get('key')
-        try:
-            proxy_vote = ProxyVote.objects.get(key=key, used_at__isnull=True)
-            if proxy_vote.expires_at < datetime.now():
-                return HttpResponse("This key has expired.")
-            request.user = proxy_vote.generated_by
-            proxy_vote.used_by = request.user
-            proxy_vote.used_at = datetime.now()
-            proxy_vote.save()
-            login(request, proxy_vote.generated_by)
-            return redirect('voteApp:index')
-        except ProxyVote.DoesNotExist:
-            return HttpResponse("Invalid key.")
+    # Assign the generated key to the user and save
+    request.user.access_key = access_key
+    request.user.save()
+    
+    return render(request, 'key_generated.html', {'access_key': access_key})
+
+def access_with_key(request):
+    if request.method == 'POST':
+        form = AccessKeyForm(request.POST)
+        if form.is_valid():
+            access_key = form.cleaned_data['access_key']
+            try:
+                user = CustomUser.objects.get(access_key=access_key)
+                # Log the user in
+                user.backend = 'django.contrib.auth.backends.ModelBackend'  # Specify the backend
+                auth_login(request, user)
+                return redirect('voteApp:index')  # Redirect to a target view after successful login
+            except CustomUser.DoesNotExist:
+                return HttpResponseForbidden('<h1>Invalid key</h1>')
+    else:
+        form = AccessKeyForm()
+    return render(request, 'access_with_key.html', {'form': form})
+    
