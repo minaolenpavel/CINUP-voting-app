@@ -2,10 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from .models import Choice, Question
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import User, Group
 from django.urls import reverse
+from .models import Choice, Question, ProxyVote  # Ensure ProxyVote is imported correctly
+from .forms import GenerateProxyVoteForm  # Ensure forms are imported correctly
+from django.views.generic import FormView
+from django.views import View
+from django.http import HttpResponse
+import datetime
 # Create your views here.
 
 
@@ -35,10 +39,7 @@ def details(request, question_id):
     question = get_object_or_404(Question.objects.prefetch_related('choice_set'), question_id=question_id)
     return render(request, 'details.html', {'question' : question})
 
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Choice
+
 
 @login_required
 def vote(request, question_id):
@@ -79,3 +80,28 @@ def question_results(request, question_id):
     user_votes = {user: user in users_who_voted for user in all_users}
     return render(request, 'question_results.html', {'question': question, 'choices': choices, 'user_votes': user_votes})
 
+class GenerateProxyVoteView(FormView):
+    template_name = 'generate_proxy_vote.html'
+    form_class = GenerateProxyVoteForm
+    success_url = '/success_url/'
+
+    def form_valid(self, form):
+        proxy_vote = ProxyVote.objects.create(generated_by=self.request.user, expires_at=form.cleaned_data['expires_at'])
+        # You might want to send the key to the user or display it on the page
+        return super().form_valid(form)
+    
+class UseProxyVoteView(View):
+    def post(self, request, *args, **kwargs):
+        key = request.POST.get('key')
+        try:
+            proxy_vote = ProxyVote.objects.get(key=key, used_at__isnull=True)
+            if proxy_vote.expires_at < datetime.now():
+                return HttpResponse("This key has expired.")
+            request.user = proxy_vote.generated_by
+            proxy_vote.used_by = request.user
+            proxy_vote.used_at = datetime.now()
+            proxy_vote.save()
+            login(request, proxy_vote.generated_by)
+            return redirect('voteApp:index')
+        except ProxyVote.DoesNotExist:
+            return HttpResponse("Invalid key.")

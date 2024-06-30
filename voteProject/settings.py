@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'voteApp'
+    'voteApp',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'voteApp.authentication.ProxyVoteAuthBackend',
 ]
 
 LOGIN_URL = 'voteApp:login'

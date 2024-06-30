@@ -18,6 +18,12 @@
                 <li class="menu_element">
                     <a href="{% url 'voteApp:logout' %}">Se déconnecter</a>
                 </li>
+                <li class="menu_element">
+                    <a href="{% url 'voteApp:generate_proxy_vote' %}">Generate Proxy Vote</a>
+                </li>
+                <li class="menu_element">
+                    <a href="{% url 'voteApp:use_proxy_vote' %}">Use Proxy Vote</a>
+                </li>
             </ul>
         </div>
         {% endif %}
