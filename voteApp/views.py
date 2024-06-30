@@ -84,22 +84,16 @@ def generate_key(request):
     if request.method == 'POST':
         form = GenerateKeyForm(request.POST)
         if form.is_valid():
-            # Generate a secure random string of ASCII letters
             alphabet = string.ascii_letters
             access_key = ''.join(secrets.choice(alphabet) for i in range(12))  # Generates a 12-character long string
-            
-            # Get the activation date from the form
             activation_date = form.cleaned_data['activation_date']
-            
-            # Assign the generated key and activation date to the user and save
-            request.user.access_key = access_key
-            request.user.activation_date = activation_date
-            request.user.save()
-            
+            user = request.user
+            user.access_key = access_key
+            user.activation_date = activation_date
+            user.save()
             return render(request, 'key_generated.html', {'access_key': access_key})
     else:
         form = GenerateKeyForm()
-    
     return render(request, 'generate_key.html', {'form': form})
 
 def access_with_key(request):
@@ -123,3 +117,8 @@ def access_with_key(request):
         form = AccessKeyForm()
     return render(request, 'access_with_key.html', {'form': form})
     
+@login_required
+def key_list(request):
+    user = request.user
+    keys = CustomUser.objects.filter(id=user.id).values('access_key', 'key_generation_date', 'activation_date', 'key_expiration_date')
+    return render(request, 'key_list.html', {'keys': keys})

@@ -1,0 +1,32 @@
+<!-- key_list.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Generated Keys</title>
+</head>
+<body>
+    <h1>Your Generated Keys</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Access Key</th>
+                <th>Generation Date</th>
+                <th>Activation Date</th>
+                <th>Expiration Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key in keys %}
+                <tr>
+                    <td>{{ key.access_key }}</td>
+                    <td>{{ key.key_generation_date }}</td>
+                    <td>{{ key.activation_date }}</td>
+                    <td>{{ key.key_expiration_date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

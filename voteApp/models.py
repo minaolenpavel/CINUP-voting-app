@@ -40,3 +40,10 @@ class CustomUser(AbstractUser):
     display_name = models.CharField(max_length=255, default='')
     access_key = models.CharField(max_length=20, blank=True, editable=False)
     activation_date = models.DateTimeField(null=True, blank=True)
+    key_generation_date = models.DateTimeField(auto_now_add=True)
+    key_expiration_date = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.activation_date:
+            self.key_expiration_date = self.activation_date + datetime.timedelta(hours=24)
+        super().save(*args, **kwargs)
