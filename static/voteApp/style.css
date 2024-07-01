@@ -125,7 +125,7 @@ a:link{
 }
 /* Question details */
 
-.question-details{
+.details-box{
     border-radius: 2px;
     color: black;
     background-color: white;
@@ -137,12 +137,12 @@ a:link{
     height: fit-content;
     padding-bottom: 50px;
 }
-.question-details h2{
+.details-box h2{
     padding-left: 20px;
     text-decoration: underline;
 }
 
-.question-details p{
+.details-box p{
     padding-left: 25px;
 }
 .labelChoice{
@@ -181,7 +181,7 @@ a:link{
     left: 5px;
 }
 
-.voteTitle{
+.details-title{
     text-decoration: underline;
     text-align: center;
 }

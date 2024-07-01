@@ -1,31 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8" />
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'voteApp/style.css' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'voteApp/img/favicon.ico' %}">
-    <title>{{ question.question_text}}</title>
-    <script src="{% static 'voteApp/display_menu.js' %}"></script>
-</head>
-<body>
-    <div class="bg"></div>
-    <div id="topbar">
-        {% if user.is_authenticated %}
-        <div id="username" class="username">{{ user.display_name }}<span class="arrow">▼</span></div>
-        <div id="userMenu" class="menu" style="display: none;">
-            <ul>
-                <li class="menu_element">
-                    <a href="{% url 'voteApp:logout' %}">Se déconnecter</a>
-                </li>
-            </ul>
+    <head>
+        <meta charset="UTF-8" />
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'voteApp/style.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'voteApp/img/favicon.ico' %}">
+        <script src="{% static 'voteApp/display_menu.js' %}"></script>
+        <title>Liste des votes</title>
+    </head>
+    <body>
+        <div class="bg"></div>
+        <div id="topbar">
+            {% if user.is_authenticated %}
+            <div id="username" class="username">{{ user.display_name }}<span class="arrow">▼</span></div>
+            <div id="userMenu" class="menu" style="display: none;">
+                <ul>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:generate-key' %}">Générer une procuration</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:access-with-key' %}">Utiliser une procuration</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:key_list' %}">Liste des procurations</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:logout' %}">Se déconnecter</a>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+            <a href="{% url 'voteApp:index' %}">
+                <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
+            </a>
+            <a href="{% url 'admin:index' %}" id="admin">Admin</a>
         </div>
-        {% endif %}
-        <a href="{% url 'voteApp:index' %}">
-            <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
-        </a>
-        <a href="{% url 'admin:index' %}" id="admin">Admin</a>
-    </div>
     <div class="messageList">
         {% if messages %}
             <ul class="messages">
@@ -39,8 +48,8 @@
             </ul>
         {% endif %}
     </div>
-    <div class="question-details">
-        <h2 class="voteTitle">{{ question.question_text }}</h2>
+    <div class="details-box">
+        <h2 class="details-title">{{ question.question_text }}</h2>
         <p>{{ question.question_desc }}</p>
         <div class="choiceBox">
             {% for choice in question.choice_set.all %}

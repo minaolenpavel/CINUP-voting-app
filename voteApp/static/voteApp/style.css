@@ -58,6 +58,49 @@ a{
     text-decoration: underline;
 }
 
+.table-box{
+    background-color: white;
+    margin-top: 100px;
+    position: absolute;
+    left: 25%;
+    padding-bottom: 20px;
+}
+.table-box h2{
+    text-align: center;
+    text-decoration: underline;
+}
+
+.table-box table {
+    width: 80%; 
+    margin: auto; 
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-box th,.table-box td {
+    padding: 15px; 
+    text-align: left; 
+    border-bottom: 1px solid #ddd; 
+}
+
+.validate-btn{
+    margin-top: 15px;
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    width: calc(100% + 40px); /* Adjusts width to accommodate 20px padding on each side */
+    height: 50px;
+    background-color: white;
+    color: #6790de;
+    border: solid;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, color 0.2s ease; /* Smooth transition for background-color and color */
+}
+.validate-btn:hover{
+    background-color: #6790de;
+    color: white;
+}
+
 .menu {
     display: none;
     position: fixed;
@@ -81,7 +124,6 @@ a{
 .menu li:hover {
     background-color: #f1f1f1;
 }
-
 
 .bg {
     position: fixed;
@@ -125,6 +167,10 @@ a{
     font-weight: bold;
     border-radius: 10px;
 }
+.btn:hover{
+    color: #4d6ea9;
+    background-color:rgb(221, 221, 221) ;
+}
 
 /* Index style */
 
@@ -159,7 +205,7 @@ a{
 }
 /* Question details */
 
-.question-details{
+.details-box{
     border-radius: 2px;
     color: black;
     background-color: white;
@@ -169,15 +215,23 @@ a{
     width: 50vw;
     min-height: 350px;
     height: fit-content;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
 }
-.question-details h2{
+.details-box h2{
     padding-left: 20px;
     text-decoration: underline;
 }
 
-.question-details p{
+.details-box p{
     padding-left: 25px;
+}
+
+.details-content{
+    justify-self: center;
+    text-align: center  ;
+    margin-top: 50px;
+    position: absolute;
+    left: 27%;
 }
 .labelChoice{
     background-color: #6790de;
@@ -213,9 +267,15 @@ a{
     vertical-align: bottom;
     bottom: 5px;
     left: 5px;
+    transition: text-decoration 0.3s ease, color 0.3s ease; 
+    color: black; 
+}
+#resultsBtn:hover{
+    color: #6790de; 
+    text-decoration: underline; 
 }
 
-.voteTitle{
+.details-title{
     text-decoration: underline;
     text-align: center;
 }

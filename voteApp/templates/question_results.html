@@ -27,7 +27,7 @@
         <a href="{% url 'admin:index' %}" id="admin">Admin</a>
     </div>
     <div class="resultsBox">
-        <h2 class="voteTitle">{{ question.question_text }}</h2>
+        <h2 class="details-title">{{ question.question_text }}</h2>
         <p class="resultsDesc">{{ question.question_desc }}</p>
         <div class="choices">
             {% for choice in choices %}
