@@ -15,6 +15,7 @@
             <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
         </a>
         <a href="{% url 'admin:index' %}" id="admin">Admin</a>
+        <a href="{% url 'voteApp:aide' %}" id="aide">Aide</a>
     </div>
     <form  id="loginForm" action="{% url 'voteApp:login' %}" method="post">
         {% csrf_token %}

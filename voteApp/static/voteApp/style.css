@@ -100,6 +100,14 @@ a{
     color:white;
     text-decoration: underline;
 }
+#aide{
+    position: fixed;
+    top: 0%;
+    left: 20px;
+    pointer-events: auto;
+    color:white;
+    text-decoration: underline;
+}
 
 .table-box{
     background-color: white;
