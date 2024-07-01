@@ -26,4 +26,6 @@ urlpatterns = [
         name='access-with-key'),
     path('keys/', views.key_list, 
         name='key_list'),
+    path('aide/', views.help_page,
+        name="aide")
 ]

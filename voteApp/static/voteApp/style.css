@@ -7,6 +7,7 @@ html, body {
     padding: 0;
     font-family: "Montserrat", sans-serif;
 }
+
 a:visited{
     color:inherit;
     text-decoration: none;
@@ -18,6 +19,48 @@ a:link{
 a{
     display: inline-block;
 }
+
+.redirection-link{
+    text-decoration: underline;
+    color: #6790de;
+}
+
+#btnTop {
+    position: fixed;
+    bottom: 20px;
+    right: 30px; 
+    z-index: 99;
+    width: 3%;
+    background-color: white;
+    border-radius: 50%;
+}
+
+#help-menu ul li {
+    margin: 10px;
+    display: inline-block;
+    white-space: nowrap;
+}
+#help-menu ul{
+    list-style-type: none;
+    margin-bottom: 70px;
+}
+.help-submenu{
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.help-submenu:hover{
+    background-color: #6790de;
+    color: white;
+}
+.submenu-container {
+    position: relative;
+}
+
+#help-menu h5{
+    text-decoration: underline;
+}
+
+
+
 #logo{
     height: 50px;
     pointer-events: auto;
@@ -222,8 +265,19 @@ a{
     text-decoration: underline;
 }
 
+.details-box h1{
+    padding-left: 20px;
+    text-decoration: underline;
+}
+
 .details-box p{
     padding-left: 25px;
+    padding-right: 25px;
+}
+
+.details-box h5{
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
 .details-content{
@@ -276,6 +330,7 @@ a{
 }
 
 .details-title{
+    margin-bottom: 30px;
     text-decoration: underline;
     text-align: center;
 }
@@ -343,5 +398,11 @@ a{
     color: #0c5460;
 }
 
+/*Tuto*/
 
-
+.tuto-img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}

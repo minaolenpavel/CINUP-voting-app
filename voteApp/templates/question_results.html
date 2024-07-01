@@ -16,6 +16,18 @@
         <div id="userMenu" class="menu" style="display: none;">
             <ul>
                 <li class="menu_element">
+                    <a href="{% url 'voteApp:generate-key' %}">Générer une procuration</a>
+                </li>
+                <li class="menu_element">
+                    <a href="{% url 'voteApp:access-with-key' %}">Utiliser une procuration</a>
+                </li>
+                <li class="menu_element">
+                    <a href="{% url 'voteApp:key_list' %}">Mes procurations</a>
+                </li>
+                <li class="menu_element">
+                    <a href="{% url 'voteApp:aide' %}">Aide</a>
+                </li>
+                <li class="menu_element">
                     <a href="{% url 'voteApp:logout' %}">Se déconnecter</a>
                 </li>
             </ul>

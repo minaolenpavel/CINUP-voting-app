@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'voteApp/style.css' %}">
+        <link rel="icon" type="image/x-icon" href="{% static 'voteApp/img/favicon.ico' %}">
+        <script src="{% static 'voteApp/display_menu.js' %}"></script>
+        <script src="{% static 'voteApp/backtotop.js' %}"></script>
+        <title>Aide</title>
+    </head>
+    <body>
+        <div class="bg"></div>
+        <div id="topbar">
+            {% if user.is_authenticated %}
+            <div id="username" class="username">{{ user.display_name }}<span class="arrow">▼</span></div>
+            <div id="userMenu" class="menu" style="display: none;">
+                <ul>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:generate-key' %}">Générer une procuration</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:access-with-key' %}">Utiliser une procuration</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:key_list' %}">Mes procurations</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:aide' %}">Aide</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:logout' %}">Se déconnecter</a>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+            <a href="{% url 'voteApp:index' %}">
+                <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
+            </a>
+            <a href="{% url 'admin:index' %}" id="admin">Admin</a>
+        </div>
+        <input id="btnTop" type="image" src="{% static 'voteApp/img/chevrons.png' %}" onclick="topFunction()"/>
+        <div class="details-box">
+            <h1 class="details-title">Aide</h1>
+            <div id="help-menu">
+                <h5>Cette page fourni de l'aide sur les sujets suivants :</h5>
+                <ul>
+                    <li class="help-submenu"><a href="#gen-procu">Faire une procuration</a></li>
+                    <li class="help-submenu"><a href="#use-procu">Utiliser une procuration</a></li>
+                    <li class="help-submenu"><a href="#mdp-lost">Mot de passe perdu</a></li>
+                    <li class="help-submenu"><a href="#mdp-change">Changement de mot de passe</a></li>
+                    <li class="help-submenu"><a href="#rep-bug">Signaler un bug</a></li>
+                </ul>
+            </div>
+            <h2 id="gen-procu" class="details-title">Comment faire une procuration ?</h2>
+            <p>Connectez-vous au site <span class="redirection-link"><a href="{% url 'voteApp:login' %}">ag.cinup.fr</a></span>.</p>
+            <img class="tuto-img" src="{% static 'voteApp/img/gen_procu.png' %}">
+            <p>Cliquez sur votre nom d'utilisateur, puis sur "Générer une procuration".</p>
+            <img class="tuto-img" src="{% static 'voteApp/img/date_procu.png' %}">
+            <p>Sélectionnez la date d'activation de votre clé, je recommande de sélectionner la date de l'assemblée générale en question.</p>
+            <img class="tuto-img" src="{% static 'voteApp/img/cle_procu.png' %}">
+            <p>La clé sera active toute la journée et expirera à minuit (heure de Paris).</p>
+            <img class="tuto-img" src="{% static 'voteApp/img/mes_procu.png' %}">
+            <p>Vous pouvez accéder à l'historique de vos procuration en allant dans la rubrique "Mes procurations".</p>
+            <img class="tuto-img" src="{% static 'voteApp/img/list_procu.png' %}">
+            <p>Vous pouvez désormais partager la clé à la personne qui vous représentera lors de la prochaine assemblée générale</p>
+            <p>Vous êtes le seul responsable des clés que vous générez et des accès que vous autorisez à votre compte.</p>
+
+            <h2 id="use-procu" class="details-title">Comment utiliser une procuration ?</h2>
+            <p>Connectez-vous au site <span class="redirection-link"><a href="{% url 'voteApp:login' %}">ag.cinup.fr</a></span>.</p>
+            <img class="tuto-img" src="{% static 'voteApp/img/use_procu.png' %}">
+            <p>Cliquez sur votre nom d'utilisateur, puis sur "Utiliser une procuration".</p>
+            <img class="tuto-img" src="{% static 'voteApp/img/input_procu.png' %}">
+            <p>Rentrez la clé de procuration que l'on vous a soigneusement donnée, puis validez.</p>
+            <img class="tuto-img" src="{% static 'voteApp/img/promethei_procu.png' %}">
+            <p>Vous êtes désormais connectés au compte de l'utilisateur qui a généré la clé.</p>
+
+            <h2 id="mdp-lost"class="details-title">Mot de passe perdu</h2>
+            <p>En cas de perte de mot de passe, veuillez contacter le pole services à l'adresse <span class="redirection-link">()</span>.</p>
+            
+            <h2 id="mdp-change" class="details-title">Changer mon mot de passe</h2>
+            <p>Les mots de passe qui vous ont été attribués sont des mots de passe "forts" généré par Avast, par conséquent, pour des raisons de sécurité nous ne recommandons pas le changement de mot de passe.</p>
+            <p>Toutefois, si vous tenez à changer votre mot de passe, veuillez contacter le pole services par mail à l'adresse <span class="redirection-link">()</span>.</p>
+            <p>Dans tous les cas, le CINUP ne sera être tenu responsable d'un accès non autorisé à votre compte, que ce soit par le biais d'une clé de procuration, ou d'un vol de mot de passe.</p>
+            
+            <h2 id="rep-bug" class="details-title">Signaler un bug</h2>
+            <p>Si vous rencontrez des bugs, faites remonter le problème par mail à () avec une capture d'écran du problème, merci !</p> 
+        
+        </div>
+    
+    
+</body>
+</html>

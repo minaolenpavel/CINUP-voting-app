@@ -24,7 +24,10 @@
                         <a href="{% url 'voteApp:access-with-key' %}">Utiliser une procuration</a>
                     </li>
                     <li class="menu_element">
-                        <a href="{% url 'voteApp:key_list' %}">Liste des procurations</a>
+                        <a href="{% url 'voteApp:key_list' %}">Mes procurations</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:aide' %}">Aide</a>
                     </li>
                     <li class="menu_element">
                         <a href="{% url 'voteApp:logout' %}">Se déconnecter</a>
@@ -37,29 +40,29 @@
             </a>
             <a href="{% url 'admin:index' %}" id="admin">Admin</a>
         </div>
-    <div class="table-box">
-        {% block content %}
-        <h2>Vos clés de procuration</h2>
-        
-            <table>
-            <tr>
-                <th>Clé d'accès</th>
-                <th>Date de création</th>
-                <th>Date d'activation</th>
-                <th>Date d'expiration</th>
-                <th>Statut</th>
-            </tr>
-            {% for key in keys %}
+        <div class="table-box">
+            {% block content %}
+            <h2>Vos clés de procuration</h2>
+            
+                <table>
                 <tr>
-                    <td>{{ key.access_key }}</td>
-                    <td>{{ key.key_generation_date }}</td>
-                    <td>{{ key.activation_date }}</td>
-                    <td>{{ key.key_expiration_date }}</td>
-                    <td>{% if key.is_valid %} Valide {% else %} Expirée {% endif %}</td>
+                    <th>Clé d'accès</th>
+                    <th>Date de création</th>
+                    <th>Date d'activation</th>
+                    <th>Date d'expiration</th>
+                    <th>Statut</th>
                 </tr>
-            {% endfor %}
-            </table>
-            {% endblock %}
-    </div>
+                {% for key in keys %}
+                    <tr>
+                        <td>{{ key.access_key }}</td>
+                        <td>{{ key.key_generation_date }}</td>
+                        <td>{{ key.activation_date }}</td>
+                        <td>{{ key.key_expiration_date }}</td>
+                        <td>{% if key.is_valid %} Valide {% else %} Expirée {% endif %}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+                {% endblock %}
+        </div>
 </body>
 </html>

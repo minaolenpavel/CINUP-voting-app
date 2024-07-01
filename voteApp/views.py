@@ -130,3 +130,6 @@ def access_with_key(request):
 def key_list(request):
     keys = UserKey.objects.filter(user=request.user).order_by('-key_generation_date')
     return render(request, 'key_list.html', {'keys': keys})
+
+def help_page(request):
+    return render(request, 'help.html')
