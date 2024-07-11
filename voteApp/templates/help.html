@@ -33,6 +33,20 @@
                     </li>
                 </ul>
             </div>
+            {% else %}
+            <div id="username" class="username">Se connecter<span class="arrow">▼</span></div>
+            <div id="userMenu" class="menu" style="display: none;">
+                <ul>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:login' %}">Se connecter</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:access-with-key' %}">Utiliser une procuration</a>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:aide' %}">Aide</a>
+                    </li>
+                </ul>
+            </div>
             {% endif %}
             <a href="{% url 'voteApp:index' %}">
                 <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
@@ -67,13 +81,14 @@
             <p>Vous êtes le seul responsable des clés que vous générez et des accès que vous autorisez à votre compte.</p>
 
             <h2 id="use-procu" class="details-title">Comment utiliser une procuration ?</h2>
-            <p>Connectez-vous au site <span class="redirection-link"><a href="{% url 'voteApp:login' %}">ag.cinup.fr</a></span>.</p>
+            <p>Allez sur le site <span class="redirection-link"><a href="{% url 'voteApp:login' %}">ag.cinup.fr</a></span>.</p>
             <img class="tuto-img" src="{% static 'voteApp/img/use_procu.png' %}">
-            <p>Cliquez sur votre nom d'utilisateur, puis sur "Utiliser une procuration".</p>
+            <p>Cliquez sur l'onglet "Se connecter", puis sur "Utiliser une procuration".</p>
             <img class="tuto-img" src="{% static 'voteApp/img/input_procu.png' %}">
             <p>Rentrez la clé de procuration que l'on vous a soigneusement donnée, puis validez.</p>
             <img class="tuto-img" src="{% static 'voteApp/img/promethei_procu.png' %}">
             <p>Vous êtes désormais connectés au compte de l'utilisateur qui a généré la clé.</p>
+            <p>Précision : vous pouvez utiliser une clé de procuration si vous êtes connecté ou non.</p>
 
             <h2 id="mdp-lost"class="details-title">Mot de passe perdu</h2>
             <p>En cas de perte de mot de passe, veuillez contacter le pole services à l'adresse <span class="redirection-link">()</span>.</p>
