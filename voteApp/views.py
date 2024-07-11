@@ -44,25 +44,23 @@ def details(request, question_id):
 def vote(request, question_id):
     if request.method == 'POST':
         choice_id = request.POST.get('choice_id')
-        choice = get_object_or_404(Choice, id=choice_id)        
+        choice = get_object_or_404(Choice, id=choice_id)  
+        if request.user.is_superuser or request.user.is_staff:
+            messages.error(request, 'Vous n\'êtes pas autorisé à voter.', extra_tags="not_allowed")
+            return render(request, 'details.html', {'question': choice.question})
         if request.user in choice.question.voters.all():
             messages.error(request, 'Vous avez déjà voté !', extra_tags="already_voted")
             return render(request, 'details.html', {'question': choice.question})
         else:
-            # Only increment the vote count and add the user to the voters if they are not part of the "presidence" group
+            #only increment the vote count and add the user to the voters if they are not part of the "presidence" group
             choice.votes += 1
-            choice.voters.add(request.user) # Add the user to the voters
+            choice.voters.add(request.user) #add the user to the voters
             choice.save()
             choice.question.voters.add(request.user)
             messages.success(request, 'Votre vote a bien été enregistré', extra_tags="vote_recorded")
-            return redirect('voteApp:index') # Redirect to the index page or wherever you want
+            return redirect('voteApp:index') #redirect to the index page or wherever you want
     else:
-        return redirect('voteApp:index') # Redirect to the index page if the request method is not POST
-
-@login_required
-def results(request):
-    questions = Question.objects.all().prefetch_related('choice_set')
-    return render(request, 'results.html', {'questions' : questions})
+        return redirect('voteApp:index')
 
 @login_required
 def question_results(request, question_id):
@@ -73,11 +71,15 @@ def question_results(request, question_id):
     users_who_voted = set()
     for choice in choices:
         users_who_voted.update(choice.voters.all())
-    # Get all users except superusers
-    all_users = User.objects.exclude(is_superuser=True)
-        # Prepare a dictionary to store whether each user has voted for any choice in this question
+    #get all users except superusers
+    all_users = User.objects.exclude(is_superuser=True).exclude(is_staff=True)
+    #prepare a dictionary to store whether each user has voted for any choice in this question
     user_votes = {user: user in users_who_voted for user in all_users}
-    return render(request, 'question_results.html', {'question': question, 'choices': choices, 'user_votes': user_votes})
+    sorted_user_votes = sorted(user_votes.items(), key=lambda item: not item[1])
+    print(user_votes)
+    print(sorted_user_votes)
+    total_votes = len(users_who_voted)
+    return render(request, 'question_results.html', {'question': question, 'choices': choices, 'user_votes': sorted_user_votes, 'total' : total_votes})
 
 @login_required
 def generate_key(request):

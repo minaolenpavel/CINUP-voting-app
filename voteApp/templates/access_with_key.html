@@ -32,6 +32,20 @@
                     </li>
                 </ul>
             </div>
+            {% else %}
+            <div id="username" class="username">Se connecter<span class="arrow">▼</span></div>
+            <div id="userMenu" class="menu" style="display: none;">
+                <ul>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:login' %}">Se connecter</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:access-with-key' %}">Utiliser une procuration</a>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:aide' %}">Aide</a>
+                    </li>
+                </ul>
+            </div>
             {% endif %}
             <a href="{% url 'voteApp:index' %}">
                 <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">

@@ -14,8 +14,6 @@ urlpatterns = [
         name='details'),
     path('vote/<uuid:question_id>/', views.vote, 
         name="vote"),
-    path('results/', views.results, 
-        name='results'),
     path('question_results/<int:question_id>/', views.question_results, 
         name='question_results'),
     path('', LogoutView.as_view(next_page='voteApp:login/'), 

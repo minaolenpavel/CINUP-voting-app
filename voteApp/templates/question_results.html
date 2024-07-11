@@ -47,9 +47,10 @@
                     <p class="resultsChoice">{{ choice.choice_text }}: {{ choice.votes }} votes</p>
                 </div>
             {% endfor %}
+            <p class="resultsChoice"> Nombre de votes exprimés : {{ total }}</p>
         </div>
         <div class="voteUsers">
-            {% for user, has_voted in user_votes.items %}
+            {% for user, has_voted in user_votes %}
                 {% if not has_voted %}
                     <p class="userVoteTxt">{{ user.display_name }} <span class="negVote">n'a pas voté</span></p>
                 {% elif has_voted %}

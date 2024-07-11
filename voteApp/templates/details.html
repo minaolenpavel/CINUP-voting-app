@@ -44,7 +44,7 @@
                 {% for message in messages %}
                     {% if message.extra_tags == "already_voted" %}
                         <li class="error"> {{ message }} </li>
-                    {% elif message.extra_tags == 'no_right_to_vote' %}
+                    {% elif message.extra_tags == 'not_allowed' %}
                         <li class="error"> {{ message }} </li>
                     {% endif %}
                 {% endfor %}

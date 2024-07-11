@@ -5,17 +5,31 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'voteApp/style.css' %}">
     <link rel="icon" type="image/x-icon" href="{% static 'voteApp/img/favicon.ico' %}">
+    <script src="{% static 'voteApp/display_menu.js' %}"></script>
     <title>Se connecter</title>
 </head>
 <body>
     <div class="bg">
     </div>
     <div id="topbar">
-        <a href="{% url 'voteApp:index' %}">
+        <a href="{% url 'admin:index' %}" id="admin">Admin</a>
+        <div id="username" class="username">Se connecter<span class="arrow">▼</span></div>
+            <div id="userMenu" class="menu" style="display: none;">
+                <ul>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:login' %}">Se connecter</a>
+                    </li>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:access-with-key' %}">Utiliser une procuration</a>
+                    <li class="menu_element">
+                        <a href="{% url 'voteApp:aide' %}">Aide</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <a>
             <img id="logo" src="{% static 'voteApp/img/android-chrome-512x512.png' %}">
         </a>
-        <a href="{% url 'admin:index' %}" id="admin">Admin</a>
-        <a href="{% url 'voteApp:aide' %}" id="aide">Aide</a>
     </div>
     <form  id="loginForm" action="{% url 'voteApp:login' %}" method="post">
         {% csrf_token %}
