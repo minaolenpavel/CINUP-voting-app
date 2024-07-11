@@ -14,10 +14,8 @@ from datetime import timedelta
 
 @login_required
 def index(request):
-    questionsList = Question.objects.order_by('-question_date')[:10] 
-    #this last part is about the number of questions to be displayed by pub_date, here it will display the last 5 questions
-    context = {"questionsList" : questionsList }
-    return render(request, "index.html", context)
+    questionsList = Question.objects.order_by('-question_date')
+    return render(request, "index.html", {"questionsList" : questionsList, "now" : timezone.now })
 
 def login(request):
     if request.method == 'POST':
@@ -36,7 +34,8 @@ def login(request):
 @login_required
 def details(request, question_id):
     question = get_object_or_404(Question.objects.prefetch_related('choice_set'), question_id=question_id)
-    return render(request, 'details.html', {'question' : question})
+    print(question.question_expiration)
+    return render(request, 'details.html', {'question' : question, "now" : timezone.now()})
 
 
 
@@ -45,6 +44,10 @@ def vote(request, question_id):
     if request.method == 'POST':
         choice_id = request.POST.get('choice_id')
         choice = get_object_or_404(Choice, id=choice_id)  
+        question = choice.question
+        if question.question_expiration <= timezone.now():
+            messages.error(request, 'Cette question n\'est plus d\'actualité.', extra_tags="not_allowed")
+            return render(request, 'details.html', {'question': choice.question})
         if request.user.is_superuser or request.user.is_staff:
             messages.error(request, 'Vous n\'êtes pas autorisé à voter.', extra_tags="not_allowed")
             return render(request, 'details.html', {'question': choice.question})

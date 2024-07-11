@@ -53,8 +53,13 @@
         {% for question in questionsList %}
             <a href="{% url 'voteApp:details' question.question_id %}">
                 <div class="oneQuestion">
-                    <h3>{{ question.question_text }}</h3>
-                    <p>Publié le {{ question.question_date|date:"Y-m-d" }}</p>
+                    {% if question.question_expiration <= now %}
+                    <h3>{{ question.question_text }}<span class="expired-question"> - vote terminé</span></h3>
+                    <p>Publié le {{ question.question_date|date:"d/m/Y" }}</p>
+                    {% else %}
+                    <h3>{{ question.question_text }} </h3>
+                    <p>Publié le {{ question.question_date|date:"d/m/Y" }}</p>
+                    {% endif%}
                 </div>
             </a>
         {% endfor %} 

@@ -41,6 +41,13 @@
     <div class="resultsBox">
         <h2 class="details-title">{{ question.question_text }}</h2>
         <p class="resultsDesc">{{ question.question_desc }}</p>
+        <div class="results-dates">
+            {% if question.question_expiration >= now %}
+            <p>Publié le {{ question.question_date|date:"d/m/Y" }} à {{ question.question_date|time:"G:i" }}, expire le {{ question.question_expiration|date:"d/m/Y" }} à {{ question.question_expiration|time:"G:i" }}</p>
+            {% else %}
+            <p>Publié le {{ question.question_date|date:"d/m/Y" }} à {{ question.question_date|time:"G:i" }}, <span class="expired-question">a expiré le {{ question.question_expiration|date:"d/m/Y" }} à {{ question.question_expiration|time:"G:i" }}</span></p>
+            {% endif %}
+        </div>
         <div class="choices">
             {% for choice in choices %}
                 <div class="choiceResults">

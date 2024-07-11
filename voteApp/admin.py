@@ -5,7 +5,7 @@ from .models import Question, Choice, CustomUser
 from django.contrib.auth.admin import UserAdmin
 
 # Customize the header of the admin site
-admin.site.site_header = "Assemblée générale"
+admin.site.site_header = "Assemblée générale du CINUP"
 # Customize the title of the admin site
 admin.site.site_title = "Zone administrateur"
 # Customize the index title of the admin site
@@ -24,7 +24,7 @@ class QuestionAdmin(admin.ModelAdmin):
     # Fieldsets are sections of the form, divided by fieldsets, which can be collapsed
     fieldsets = [
         (None, {'fields':['question_text', 'question_desc']}),  # A fieldset with no title, containing the 'question_text' field
-        ('Date Information', {'fields': ['question_date'], 'classes': ['collapse']}),  # A fieldset titled 'Date Information', containing the 'pub_date' field, which is collapsible
+        ('Date Information', {'fields': ['question_date', 'question_expiration']}),  # A fieldset titled 'Date Information', containing the 'pub_date' field, which is collapsible
     ]
     # Include the ChoiceInLine admin class in the admin interface for the Question model
     inlines = [ChoiceInLine]

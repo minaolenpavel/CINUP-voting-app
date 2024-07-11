@@ -257,6 +257,12 @@ a{
     justify-content: center;
     align-items: center;
 }
+
+.expired-question{
+    color: rgb(229, 0, 0);
+    font-size:medium;
+}
+
 /* Question details */
 
 .details-box{
@@ -273,7 +279,6 @@ a{
 }
 .details-box h2{
     padding-left: 20px;
-    text-decoration: underline;
 }
 
 .details-box h1{
@@ -345,6 +350,11 @@ a{
     text-decoration: underline;
     text-align: center;
 }
+
+.details-title .expired-question{
+    text-decoration: none;
+}
+
 /* Question results style */
 
 .resultsBox{
@@ -371,6 +381,10 @@ a{
     font-size: large;
 }
 
+.choices{
+    font-weight: bold;
+}
+
 .voteUsers{
     margin-top: 50px;
     margin-left: 10px;
@@ -382,6 +396,10 @@ a{
 .posVote{
     background-color: green;
     color: white;
+}
+
+.results-dates{
+    margin-left: 10px;
 }
 
 

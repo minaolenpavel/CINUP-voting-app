@@ -5,13 +5,15 @@ import uuid
 from django.conf import settings
 import datetime
 from django.utils import timezone
+from datetime import timedelta
 
 # Define a model class for Question
 class Question(models.Model):
     # Define a CharField with a maximum length of  300 characters
     question_text = models.CharField(max_length=300)
     # Define a DateTimeField to store the date the question was published
-    question_date = models.DateTimeField('date de publication')
+    question_date = models.DateTimeField(null=False, default=timezone.now())
+    question_expiration = models.DateTimeField(null=False, default=timezone.now()+timedelta(hours=3))
     question_desc = models.TextField(blank=True)
     question_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     voters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='voted_questions', blank=True)    # Define the string representation of the model instance
