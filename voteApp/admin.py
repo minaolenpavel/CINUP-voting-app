@@ -16,6 +16,7 @@ admin.site.index_title = "Bienvenue sur la zone admnistrateur"
 class ChoiceInLine(admin.TabularInline):
     model = Choice  # The model to be edited inline
     extra =  3  # The number of extra forms to display
+    exclude = ('voters',)
 
 # Define an admin class for the Question model
 # This class specifies how the Question model should be displayed in the admin site
@@ -28,6 +29,7 @@ class QuestionAdmin(admin.ModelAdmin):
     ]
     # Include the ChoiceInLine admin class in the admin interface for the Question model
     inlines = [ChoiceInLine]
+    exclude = ('voters',)
 
 # Register the Question model with the admin site and specify the QuestionAdmin class to use for its admin interface
 admin.site.register(Question, QuestionAdmin)
